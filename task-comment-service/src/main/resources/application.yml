@@ -1,0 +1,30 @@
+server:
+  port: 5003
+
+spring:
+  application:
+    name: TASK-COMMENT-SERVICE
+  datasource:
+    username: root
+    password: P@ssw0rd
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/task_submission_service
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+auth:
+  token:
+    secret: 36763979244226452948404D635166546A576D5A7134743777217A25432A462D
+    expirationTime: 3600000L
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://localhost:5004/eureka/

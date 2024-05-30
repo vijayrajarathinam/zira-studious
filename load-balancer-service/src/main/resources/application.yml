@@ -1,0 +1,45 @@
+server:
+  port: 5000
+
+
+spring:
+  application:
+    name: GATEWAY-ENGINE
+  cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri:
+            lb://USER-SERVICE
+          predicates:
+            - Path=/auth/**, /users/**, /user/**, /api/users/**, /api/user/**, /
+        - id: TASK-SERVICE
+          uri:
+            lb://TASK-SERVICE
+          predicates:
+            - Path=/task/**, /tasks/**, /api/tasks/**, /api/task/**
+        - id: TASK-COMMENT-SERVICE
+          uri:
+            lb://TASK-COMMENT-SERVICE
+          predicates:
+            - Path=/submission/**, /api/submission/**
+        default-filters:
+          - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+        filters:
+          - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+        globalcors:
+          cors-configurations:
+            '[/**]':
+              allowedOrigins: "*"
+              allowedMethods: "*"
+              allowedHeaders: "*"
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://localhost:5000/eureka/
